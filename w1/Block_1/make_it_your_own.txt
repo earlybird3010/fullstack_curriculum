@@ -1,0 +1,87 @@
+Day 1: Values, types, and operators
+
+Context: Back in the day, webpages were static with only HTML to determine its structure and CSS to determine its styling.
+In other words, the browser was "dumb" since it has to fetch a new page from the server everytime a change was made. With the introduction
+of JavaScript (not related to Java), the browser can manipulate the contents needed to be changed while keeping everything else the same -> more efficient method.
+
+In this first lesson, we are going to talk about the primitive components of JavaScript: values, types, and operators
+
+0. Data:
+First of all, a computer is an electronic device that is only able to access, store, retrieve, manipulate, and modify data. Each piece of data has a corresponding representation:
+a paragraph, a phone book, or the images in your folder, etc. are all examples of data. To manipulate data, a computer needs a method to transmit it between its different components.
+For instance, it needs to transmit the data between hardware components as electronic signals, and it turns out this can be conveniently represented by different states of transistors,
+which are electronic switches that can be turned on or off. As a result, it is natural to represent each piece of data as a binary sequence.
+
+1: Values and the need of data type
+Secondly, I'll give an informal overview of how a computer retrieves and stores its own data. A computer's memory consists of hundreds of millions of bits, so when it stores a piece of data
+in its memory, it needs to know the "address" of the piece of data, as well as the size of the chunk it uses to store those bits for later retrieval. On the other hand, representing information
+as 0s and 1s are tedious, so each piece of data has a corresponding value. For example, 0, 1, 1.5, -1, "aaa", true, false, etc. are all values in JavaScript. Nonetheless, although size and address
+are enough for storage and retrieval, a computer cannot use these 2 facts to correctly manipulate, or process, the corresponding data. One example is that JS doesn't know how to perform the + operator:
+What is 5 + 3? What about "5" + "3"? As a result, we need additional information about a value to interpret and manipulate it. One way to do that is by introducing data types to JS. **JavaScript is dynamically typed:** values have types; variables do not. The same operator can mean different things depending on operand types—for example, `+` is numeric addition for numbers but concatenation for strings.
+
+
+2: Data types
+Informally, we can view a data type is a collection of values that share some structures and common behaviors.
+There are 7 primitive data types in JS (number, bigint, string, boolean, null, undefined, symbol) and 1 non-primitive data type (object) in JS. In the following discussion, I'll explain each data type and what operators can we use on them?
+
+1. Number
+- Who does it serve? Any task involving processing numbers (banking, finance, etc.)
+- Why do we need it? Numbers are everywhere, from banking, finance, to corporate issues, etc.
+- When and where do we use it? In a program that manipulates numbers.
+- What is it? The Number type is a collection of all numeric values (1, 2, 3, -4.5, 1e8, Infinity, -Infinity, NaN) in 64-bit IEEE-754 floats format.
+- What meaningful operators can we use on Number values? Arithmetic operators (binary operator: Number, Number -> Number): +, -, *, /, %, **; Comparison operators (binary operator: Number, Number -> boolean): >, <, >=, <=, ==, ===, !=, !==;
+typeof {number_value} returns 'number'
+- Some weird stuffs about JS: Infinity - Infinity -> NaN, NaN is sticky, meaning any operation with NaN results in NaN, except for NaN**0 -> 1, -Infinity + Infinity -> NaN.
+Technically, NaN represents the result of an operation without meaningful result. NaN is not equal to itself.
+
+2. BigInt
+- Who does it serve? Any task involving representing "big" numbers correctly.
+- Why do we need it? Regular numbers are IEEE-754 floats; integers are only exact within **±(2^53 − 1)** (`Number.MAX_SAFE_INTEGER`). Beyond that, precision is lost.
+- When and where do we use it? In a program that deals with big integers (not going deep into this)
+- What is it? Write big integers with an `n` suffix (e.g., `123n`). BigInt supports `+ - * / % **` (integer division truncates). You **cannot mix** `bigint` with `number` in arithmetic (`1n + 1` throws). `0n` is falsy.
+- What meaningful operators can we use on BigInt values? Don't know, will discuss later.
+
+3. String
+- Who does it serve? Dude, when was the last time you didn't have textual data in front of you?)))
+- Why do we need it? Same reason above
+- When and where do we use it? In a program that processes textual data (classic I/O).
+- What is it? The String type is a collection of all textual values ("abc", 'hi, my name is "MR. BEAN"', `1 + 2 is ${1 + 2}` ---> template literals, convenient for interpolation). JS strings are sequences of UTF-16 code units-some characters(e.g, emoji) use 2 code units, so length isn't a reliable 
+"character" count. 
+- What meaningful operators can we use on String values? + operator concatenates 2 strings; Comparison operators (binary operator: String, String -> boolean using lexicographic (Unicode code points)): >, <, >=, <=, ==, ===, !=, !==;
+typeof {string_value} returns 'string' 
+
+4. Boolean
+- Who does it serve? Anyone who wants to have multiple options in their lives based on their needs.
+- Why do we need it? Useful in conditional statements, where we can branch the program as needed.
+- When and where do we use it? Any program that determines its state by some conditions (games, banking, finance, etc.)
+- What is it? The Boolean type consists of 2 values: true and false. Each boolean type theoretically needs 1 bit for storage, but actual storage is more sophisticated -> not in course's scope.
+- What meaningful operators can we perform on Boolean values?
+Boolean operators: !true -> false, !false -> true, a && b -> true iff a and b are true, a || b -> false iff a and b are false, typeof {boolean_value} -> 'boolean'
+
+5 & 6. Empty values: Undefined and null 
+- Who does it serve? Programmers, I guess.
+- Why do we need it? Undefined represents unintentional absence of a value, while null represents intentional absence of a value
+- When and where do we use it? See above
+- What is it? 2 values, null and undefined. 
+- What meaningful operators can we perform on empty values? None, what do you expect to perform on the absence of data?
+- Special equality: `null == undefined` is `true`; otherwise treat them distinctly and prefer `===`. Common patterns: `x ?? fallback` (only for `null`/`undefined`), and optional chaining `obj?.prop`.
+
+7. Symbol values: for unique identifiers, don't know much
+
+8. Object values
+- Who does it serve? Anyone who interacs with more complicated data (banking datas, google accounts, etc.) than some basic stuffs like numbers or texts. 
+- Why do we need it? Useful for grouping complex and related data, methods in a single unit for manipulation.
+- When and where do we use it? Complex programs
+- What is it? Any value that consists more than one piece of information
+- Meaningful operators: typeof {object_value} -> 'object'. Further operators will be discussed.
+
+Finally, we needed to discuss the idea behind "meaningful operators" above. JS is a lenient language, which means it won't force programmers to adhere
+to strict rules like C. Also, we will take into account some of the weird behaviors of JS. For instance, JS is dynamically typed, meaning we can store whatever we want in a variable. For example:
++ let x = 5
++ x = "hahahahahaah"
+
+is valid. Furthermore, due to type coercion, JS can perform many illogical operators between values. For examples:
++ Arithmetic operators: Inf - Inf -> NaN, Inf + Inf -> Inf, Inf ** 0 -> 1, NaN ** 0 -> 1, NaN with anything else is NaN, "5" + 3 -> "53", "5" - 4 -> 1, "5" + false -> "5false", etc.
++ Relational operators: true >= false -> true, 0.1 + 0.2 == 0.3 -> false (work with ints for comparisons), 5 == "5" -> true (use strict operator like === or !==), Number.MAX_SAFE_INTEGER + 1 == Number.MAX_SAFE_INTEGER + 2 --> true (overflow)
++ Logical operators: !5 -> false, 5 && 0 -> 0, 5 || 0 -> 5, etc. Basically, these are the falsey values in JS: NaN, 0, -0, 0n, "", and false, null, undefined. The rule for logical operators is like this:
+!{value} -> true iff value is falsey, x && y -> x if x (not false) is falsey, otherwise to y, x || y -> x if x is not falsey, otherwise to y.

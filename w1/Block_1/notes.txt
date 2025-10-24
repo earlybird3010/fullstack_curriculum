@@ -1,0 +1,85 @@
+1. Data
+- A program can access, modify, and create new data, but nothing else.
+- Every piece of data is represented as a binary string. Why? Hardware stuffs + transistors
+- Examples:
++ 13 is 0........1101 (64 bits)
++ "a" is 00...01100001 (16 bits)
+
+2. Values
+- Storage: when we work with data -> need to know how much can a computer store
+- Volatile storage (forgets when power is off): For example, my HP Laptop has 24 GB RAM
+---> roughly 24 * 10^9 bytes ---> 192 billion bits
+- Non-volatile storage: I am booting fedora OS with a Samsung SSD with 1 TB storage capacity ---> 1000 GB
+--->  a few orders of magnitude more
+- The storage of a computer consists of hundreds of billions of bits. As a result, when working with data, either accessing, modifying, or creating, it needs to 
+store that piece of data in a fixed-size (for efficiency) chunk of memory and be able to retrieve and interpret it correctly. The interpretation is needed because 2 identical binary strings can mean different things in different context 
+(pi vs 1078523331). Therefore, different data types are created to tell the computer both how to interpret the bits (is 01100001 the character 'a' or the number 97?) and what operations are valid 
+(you can add numbers, but not characters).
+- Unary operator: typeof {value} returns the type of any value
+
+3. Some basic types and operations allowed to be performed on them
+- A data type is a collection of values that share some similar characteristics and/or behaviors.
+- Order of operators: PUMARE(LA)(LO)
+- Ternary operator: boolean_exp ? ret_val1 : ret_val2
+    3.1. Number: represents numeric values (1, 2, -3.5, 1.27124453). 
+    3.1. Each number has a size of 8 bytes, or 64 bits.
+    3.1. Binary equivalence: the binary conversion of the associated number.
+    3.1. Arithmetic operators (Number, Number -> Number): +, -, *, /, %, etc.
+    3.1. Cool tricks: e{something} represents 10^e
+    3.1. Bugs: the representation is not precise (except when working with integral values), overflow
+    3.1. Special values: Infinity (1 / 0, Infinity), -Infinity (-1 / 0, -Infinity), NaN (0 / 0, Infinity - Infinity, 5 * "ja"): sticky (any math ops on NaN -> NaN)
+
+    3.2. String: represents textual data ("I am a bad athlete" (allows for ' inside the string), 'abcdefg' (allows for " inside the string), `hohoho` (template literals, directly insert values into the string)
+    3.2. Computer reserves 2 bytes for storage for each character in a string ---> 2^16 characters: problem?
+    3.2. Binary equivalence: each character in a string has its binary representation following the Unicode standard (extension of ASCII)
+    3.2. Special characters: what if we want to move down a line? include a 2" in a double-quoted string? etc. -> Special characters: \n, \", etc. -> like C
+    3.2. String operators (string, string -> string): + concatenates 2 strings
+
+    3.3. Boolean: represents true/false value
+    3.3. Computer reserves ???1 bit??? (nope, depended on machines) for storage for each boolean value
+    3.3. Binary equivalence: true is 1, and false is 0
+    3.3. Operators: relational operators (>, <, >=, <=.!=, ==) (note that NaN != NaN), logical operators (&&, ||, !) ---> shortcircuting: evaluate to the value that determines the result of the logical operation
+
+    3.4. null and undefined: absence of information vs meaningless information
+
+4. Automatic type conversion ("stupid" implementation that keeps tracking bugs hard):
+- In short, JS allows weird operations due to type conversion (type coercion):
+    console.log(8 * null) //-> 0
+    console.log("5" - 1) //-> 4
+    console.log("5" + 1) //-> 51
+    console.log("five" * 2) //-> NaN
+
+    // The weird case of comparison operator
+    console.log(false == 0) //-> true (this one is kind of standard in C)
+    console.log(5 == '5') //-> true
+    console.log("3" + "2" == 32) //->true
+    console.log(false == '') //->true
+    console.log(false == NaN) //->true
+    console.log(false == null) //->false, kind of weird
+    console.log(null == 0) //->true
+
+    // Solution: strict comparison (use === or !==)
+
+Additional reading:
+- JS is a dynamically typed language, meaning a variable isn't bound to any type of value upon initialization. For example:
++ let x = 5
++ x = "kakaka" is allowed (this is also ok in python, but in C, 'haha')
+- NaN ** 0 is 1
+- Infinity ** 0 is 1
+- Dive deeper into overflow:
++ Limits of representation as a valid Number is Number.MAX_VALUE
++ Limits of representation as a precise integer is Number.MAX_SAFE_INTEGER (meaning representation of larger number may not be what we want)
+----> Fix for limits of representation as a precise integer: BigInt, append the letter n at the end of the number
+
+- New type: object
++ Meaning: an object is a collection of many stuffs, while a primitive value contains only a single thing
+
+- New type: symbol ---> create unique identifiers for objects
+
+
+------------------------------------------------------------------
+Exercises:
+let name = 'Ilya';
+alert(`hello ${1}`); //-> hello 1
+alert(`hello ${"name"}`); //-> hello name
+alert(`hello ${name}); //-> hello Ilya
